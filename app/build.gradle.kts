@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.e2a.translator"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.e2a.translator"
@@ -99,7 +99,8 @@ dependencies {
     implementation("com.google.mlkit:translate:17.0.3")
     implementation("com.google.mlkit:language-id:17.0.6")
     implementation("com.google.mlkit:text-recognition:16.0.1")
-    implementation("com.google.mlkit:text-recognition-arabic-script:16.0.1")
+    // Arabic script support is included in the base text-recognition model
+    // For latest ML Kit Arabic OCR, the base package covers it.
 
     // CameraX
     val camerax_version = "1.3.4"
