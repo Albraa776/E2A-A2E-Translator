@@ -123,7 +123,7 @@ fun TextTranslateScreen(vm: TranslatorViewModel) {
                         clipboard.setPrimaryClip(clip)
                         android.widget.Toast.makeText(context, "Copied!", android.widget.Toast.LENGTH_SHORT).show()
                     }) {
-                        Icon(Icons.Default.Add, contentDescription = "Copy")
+                        Text("📋")
                     }
                     Text("Copy to clipboard")
                 }
