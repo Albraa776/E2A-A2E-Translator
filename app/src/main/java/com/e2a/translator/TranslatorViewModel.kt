@@ -46,7 +46,7 @@ class TranslatorViewModel : ViewModel() {
                 val model = TranslateRemoteModel.Builder(targetLang).build()
                 val conditions = DownloadConditions.Builder()
                     .requireWifi()
-                    .requireCharging(false)
+                    .requireCharging()
                     .build()
 
                 Translation.getClient(TranslatorOptions.Builder()
@@ -131,7 +131,7 @@ class TranslatorViewModel : ViewModel() {
     fun detectLanguage(text: String, callback: (String) -> Unit) {
         languageIdentifier.identifyPossibleLanguages(text)
             .addOnSuccessListener { languages ->
-                val lang = languages.firstOrNull()?.languageCode ?: "und"
+                val lang = languages.firstOrNull()?.languageTag ?: "und"
                 callback(lang)
             }
             .addOnFailureListener { callback("und") }
