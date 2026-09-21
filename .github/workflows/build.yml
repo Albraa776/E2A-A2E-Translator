@@ -1,15 +1,15 @@
-name: Build B Agent APK
+name: Build E2A & A2E Translator APK
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [master, main]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: bagent-build-${{ github.ref }}
+  group: e2a-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -34,31 +34,31 @@ jobs:
       - name: Generate signing keystore
         run: |
           keytool -genkeypair -v \
-            -keystore "$RUNNER_TEMP/bagent.keystore" \
-            -alias bagent \
+            -keystore "$RUNNER_TEMP/translator.keystore" \
+            -alias translator \
             -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass bagentpass -keypass bagentpass \
-            -dname "CN=B Agent, OU=Mobile, O=BAgent, L=NA, ST=NA, C=US"
+            -storepass translatorpass -keypass translatorpass \
+            -dname "CN=E2A-A2E, OU=Mobile, O=Translator, L=NA, ST=NA, C=US"
 
       - name: Assemble release APK
         run: |
           gradle --no-daemon --stacktrace assembleRelease \
-            -PBA_KEYSTORE_PATH="$RUNNER_TEMP/bagent.keystore" \
-            -PBA_KEYSTORE_PASS=bagentpass \
-            -PBA_KEY_ALIAS=bagent \
-            -PBA_KEY_PASS=bagentpass
+            -PBA_KEYSTORE_PATH="$RUNNER_TEMP/translator.keystore" \
+            -PBA_KEYSTORE_PASS=translatorpass \
+            -PBA_KEY_ALIAS=translator \
+            -PBA_KEY_PASS=translatorpass
 
       - name: Collect APK
         run: |
           mkdir -p dist
-          cp app/build/outputs/apk/release/app-release.apk dist/B-Agent-release.apk
+          cp app/build/outputs/apk/release/app-release.apk dist/E2A_A2E.apk
           ls -la dist
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: B-Agent-release-apk
-          path: dist/B-Agent-release.apk
+          name: E2A-A2E-release-apk
+          path: dist/E2A_A2E.apk
           if-no-files-found: error
 
       - name: Publish GitHub Release
@@ -66,10 +66,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: B Agent — latest build
+          name: E2A & A2E Translator — latest build
           make_latest: true
           body: |
             Automated build from commit `${{ github.sha }}`.
 
-            Install `B-Agent-release.apk` on Android 8.0+ (minSdk 26).
-          files: dist/B-Agent-release.apk
+            Install `E2A_A2E.apk` on Android 8.0+ (minSdk 26).
+            Features: English↔Arabic offline neural translation, live camera translation, image OCR with selectable copy.
+          files: dist/E2A_A2E.apk

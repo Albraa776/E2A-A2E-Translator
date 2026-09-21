@@ -1,6 +1,7 @@
 *.iml
 .gradle
 /local.properties
+TaskDroid-Manager/
 /.idea
 .DS_Store
 /build

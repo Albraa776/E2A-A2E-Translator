@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "B-Agent"
+rootProject.name = "E2A-A2E-Translator"
 include(":app")
