@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    TranslatorApp()
+                    TranslatorUI()
                 }
             }
         }
