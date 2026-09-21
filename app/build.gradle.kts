@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.e2a.translator"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.e2a.translator"
