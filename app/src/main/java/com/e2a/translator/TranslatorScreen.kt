@@ -96,7 +96,7 @@ fun TextTranslateScreen(vm: TranslatorViewModel) {
 
     if (loading) {
         Spacer(modifier = Modifier.height(12.dp))
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
     }
 
     Spacer(modifier = Modifier.height(20.dp))
@@ -123,7 +123,7 @@ fun TextTranslateScreen(vm: TranslatorViewModel) {
                         clipboard.setPrimaryClip(clip)
                         android.widget.Toast.makeText(context, "Copied!", android.widget.Toast.LENGTH_SHORT).show()
                     }) {
-                        Icon(Icons.Default.CopyAll, contentDescription = "Copy")
+                        Icon(Icons.Default.Add, contentDescription = "Copy")
                     }
                     Text("Copy to clipboard")
                 }
