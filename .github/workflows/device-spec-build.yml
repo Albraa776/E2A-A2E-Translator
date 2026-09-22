@@ -42,6 +42,7 @@ jobs:
 
       - name: Assemble release APK
         run: |
+          cd app-device-spec
           ./gradlew --no-daemon --stacktrace assembleRelease \
             -PBA_KEYSTORE_PATH="$RUNNER_TEMP/device-spec.keystore" \
             -PBA_KEYSTORE_PASS=devicespecpass \
@@ -50,6 +51,7 @@ jobs:
 
       - name: Collect APK
         run: |
+          cd app-device-spec
           mkdir -p dist
           cp app/build/outputs/apk/release/app-release.apk dist/Device-Spec-Extractor.apk
           ls -la dist
