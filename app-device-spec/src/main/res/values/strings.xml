@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Device Spec Extractor</string>
+    <string name="title_device_specs">Device Specifications</string>
+    <string name="title_sensor_data">Sensor Data</string>
+    <string name="title_system_info">System Information</string>
+    <string name="title_hardware_info">Hardware Information</string>
+    <string name="title_network_info">Network Information</string>
+    <string name="title_extract_specs">Extract Real Specs</string>
+    <string name="title_export_data">Export Data</string>
+    
+    <!-- Button texts -->
+    <string name="btn_extract">Extract Specifications</string>
+    <string name="btn_export">Export to JSON</string>
+    <string name="btn_refresh">Refresh Data</string>
+    <string name="btn_stop">Stop Extraction</string>
+    
+    <!-- Status messages -->
+    <string name="status_idle">Ready to extract device specifications</string>
+    <string name="status_extracting">Extracting device specifications...</string>
+    <string name="status_completed">Extraction completed successfully</string>
+    <string name="status_error">Error occurred during extraction</string>
+    <string name="status_permission_denied">Permission denied. Please enable required permissions.</string>
+    
+    <!-- Progress messages -->
+    <string name="progress_collecting_sensors">Collecting sensor data...</string>
+    <string name="progress_collecting_hardware">Collecting hardware information...</string>
+    <string name="progress_collecting_system">Collecting system information...</string>
+    <string name="progress_validating_data">Validating data integrity...</string>
+    <string name="progress_detecting_spoofing">Detecting potential spoofing...</string>
+    
+    <!-- Sensor labels -->
+    <string name="sensor_accelerometer">Accelerometer</string>
+    <string name="sensor_gyroscope">Gyroscope</string>
+    <string name="sensor_magnetometer">Magnetometer</string>
+    <string name="sensor_barometer">Barometer</string>
+    <string name="sensor_light">Light Sensor</string>
+    <string name="sensor_proximity">Proximity Sensor</string>
+    <string name="sensor_step_counter">Step Counter</string>
+    <string name="sensor_step_detector">Step Detector</string>
+    
+    <!-- Information labels -->
+    <string name="info_manufacturer">Manufacturer</string>
+    <string name="info_model">Model</string>
+    <string name="info_brand">Brand</string>
+    <string name="info_device">Device</string>
+    <string name="info_product">Product</string>
+    <string name="info_hardware">Hardware</string>
+    <string name="info_board">Board</string>
+    <string name="info_bootloader">Bootloader</string>
+    <string name="info_fingerprint">Fingerprint</string>
+    <string name="info_security_patch">Security Patch</string>
+    <string name="info_android_version">Android Version</string>
+    <string name="info_api_level">API Level</string>
+    <string name="info_screen_resolution">Screen Resolution</string>
+    <string name="info_screen_density">Screen Density</string>
+    <string name="info_cpu_info">CPU Information</string>
+    <string name="info_memory_info">Memory Information</string>
+    <string name="info_storage_info">Storage Information</string>
+    
+    <!-- Spoofing detection -->
+    <string name="spoofing_detected">Potential spoofing detected!</string>
+    <string name="spoofing_warning">Inconsistencies found in device data</string>
+    <string name="data_validated">Data validated successfully</string>
+    
+    <!-- Export options -->
+    <string name="export_success">Data exported successfully</string>
+    <string name="export_failed">Failed to export data</string>
+    <string name="export_json">JSON Format</string>
+    <string name="export_csv">CSV Format</string>
+    
+    <!-- Navigation -->
+    <string name="nav_sensors">Sensors</string>
+    <string name="nav_hardware">Hardware</string>
+    <string name="nav_system">System</string>
+    <string name="nav_network">Network</string>
+    
+    <!-- Error messages -->
+    <string name="error_no_sensors">No sensors available on this device</string>
+    <string name="error_permission_required">Permission required for this operation</string>
+    <string name="error_sensor_timeout">Sensor data collection timeout</string>
+    <string name="error_invalid_data">Invalid data detected</string>
+    
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_description">Device Specification Extractor - Extracts real hardware specifications even if the OS is faked.</string>
+    <string name="about_version">Version 1.0.0</string>
+</resources>
