@@ -40,40 +40,21 @@ jobs:
             -storepass devicespecpass -keypass devicespecpass \
             -dname "CN=Device-Spec-Extractor, OU=Mobile, O=Extractor, L=NA, ST=NA, C=US"
 
-      - name: Assemble release APK
+      - name: Assemble debug APK
         run: |
           cd app-device-spec
-          ./gradlew --no-daemon --stacktrace assembleRelease \
-            -PBA_KEYSTORE_PATH="$RUNNER_TEMP/device-spec.keystore" \
-            -PBA_KEYSTORE_PASS=devicespecpass \
-            -PBA_KEY_ALIAS=device-spec \
-            -PBA_KEY_PASS=devicespecpass
+          ./gradlew --no-daemon --stacktrace assembleDebug
 
       - name: Collect APK
         run: |
           cd app-device-spec
           mkdir -p dist
-          cp app/build/outputs/apk/release/app-release.apk dist/Device-Spec-Extractor.apk
+          cp app/build/outputs/apk/debug/app-debug.apk dist/Device-Spec-Extractor.apk
           ls -la dist
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Device-Spec-Extractor-release-apk
+          name: Device-Spec-Extractor-debug-apk
           path: dist/Device-Spec-Extractor.apk
           if-no-files-found: error
-
-      - name: Publish GitHub Release
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest
-          name: Device Spec Extractor — latest build
-          make_latest: true
-          body: |
-            Automated build from commit `${{ github.sha }}`.
-
-            Install `Device-Spec-Extractor.apk` on Android 8.0+ (minSdk 26).
-            Features: Extracts real device specifications even if the OS is faked.
-            Includes hardware sensor data, system information, and anti-spoofing detection.
-          files: dist/Device-Spec-Extractor.apk
