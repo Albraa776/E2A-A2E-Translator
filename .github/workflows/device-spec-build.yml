@@ -34,6 +34,18 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Validate Gradle settings
+        working-directory: app-device-spec
+        run: gradle --no-daemon help
+
+      - name: Resolve dependencies
+        working-directory: app-device-spec
+        run: gradle --no-daemon :app:dependencies --configuration debugCompileClasspath
+
+      - name: Compile Kotlin
+        working-directory: app-device-spec
+        run: gradle --no-daemon --stacktrace :app:compileDebugKotlin
+
       - name: Assemble debug APK
         working-directory: app-device-spec
         run: gradle --no-daemon --stacktrace :app:assembleDebug
