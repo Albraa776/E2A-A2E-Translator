@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: device-spec-build-${{ github.ref }}
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Assemble debug APK
+    name: Assemble & release APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,21 +34,51 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Assemble debug APK
+      - name: Generate signing keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore "$RUNNER_TEMP/device-spec.keystore" \
+            -alias device-spec \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass devicespecpass -keypass devicespecpass \
+            -dname "CN=Device-Spec-Extractor, OU=Mobile, O=Extractor, L=NA, ST=NA, C=US"
+
+      - name: Assemble release APK
         working-directory: app-device-spec
-        run: gradle --no-daemon --stacktrace :app:assembleDebug
+        run: |
+          gradle --no-daemon --stacktrace :app:assembleRelease \
+            -PBA_KEYSTORE_PATH="$RUNNER_TEMP/device-spec.keystore" \
+            -PBA_KEYSTORE_PASS=devicespecpass \
+            -PBA_KEY_ALIAS=device-spec \
+            -PBA_KEY_PASS=devicespecpass
 
       - name: Collect APK
         working-directory: app-device-spec
         run: |
           mkdir -p dist
-          cp app/build/outputs/apk/debug/app-debug.apk dist/Device-Spec-Extractor.apk
+          cp app/build/outputs/apk/release/app-release.apk dist/Device-Spec-Extractor.apk
           ls -lh dist/
-          ls -lh app/build/outputs/apk/debug/
+          ls -lh app/build/outputs/apk/release/
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Device-Spec-Extractor-debug-apk
+          name: Device-Spec-Extractor-release-apk
           path: app-device-spec/dist/Device-Spec-Extractor.apk
           if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: device-spec-latest
+          name: Device Spec Extractor — latest build
+          make_latest: false
+          body: |
+            The NEW app: Device Spec Extractor (`com.device.spec.extractor`).
+
+            Install `Device-Spec-Extractor.apk` on Android 8.0+ (minSdk 26).
+            Extracts real hardware specs even if the OS is faked (sensors, build info, anti-spoofing).
+
+            NOTE: the old E2A translator app lives under the `latest` tag — this is a different app under `device-spec-latest`.
+          files: app-device-spec/dist/Device-Spec-Extractor.apk

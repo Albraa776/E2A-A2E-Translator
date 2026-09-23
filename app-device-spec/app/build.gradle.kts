@@ -22,6 +22,18 @@ android {
         }
     }
 
+    signingConfigs {
+        val storePath = providers.gradleProperty("BA_KEYSTORE_PATH")
+        if (storePath.isPresent) {
+            create("release") {
+                storeFile = file(storePath.get())
+                storePassword = providers.gradleProperty("BA_KEYSTORE_PASS").get()
+                keyAlias = providers.gradleProperty("BA_KEY_ALIAS").get()
+                keyPassword = providers.gradleProperty("BA_KEY_PASS").get()
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -38,6 +50,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            val storePath = providers.gradleProperty("BA_KEYSTORE_PATH")
+            if (storePath.isPresent) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
