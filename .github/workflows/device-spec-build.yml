@@ -3,10 +3,13 @@ name: Build Device Spec Extractor APK
 on:
   push:
     branches: [master, main]
+    paths:
+      - 'app-device-spec/**'
+      - '.github/workflows/device-spec-build.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: device-spec-build-${{ github.ref }}
@@ -14,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Assemble & release APK
+    name: Assemble debug APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,35 +29,27 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle 8.9
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Generate signing keystore
-        run: |
-          keytool -genkeypair -v \
-            -keystore "$RUNNER_TEMP/device-spec.keystore" \
-            -alias device-spec \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass devicespecpass -keypass devicespecpass \
-            -dname "CN=Device-Spec-Extractor, OU=Mobile, O=Extractor, L=NA, ST=NA, C=US"
+      - name: Make gradlew executable
+        run: chmod +x app-device-spec/gradlew
 
       - name: Assemble debug APK
-        run: |
-          cd app-device-spec
-          ./gradlew --no-daemon --stacktrace assembleDebug
+        working-directory: app-device-spec
+        run: ./gradlew --no-daemon --stacktrace assembleDebug
 
       - name: Collect APK
+        working-directory: app-device-spec
         run: |
-          cd app-device-spec
           mkdir -p dist
           cp app/build/outputs/apk/debug/app-debug.apk dist/Device-Spec-Extractor.apk
-          ls -la dist
+          ls -lh dist/
+          ls -lh app/build/outputs/apk/debug/
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: Device-Spec-Extractor-debug-apk
-          path: dist/Device-Spec-Extractor.apk
+          path: app-device-spec/dist/Device-Spec-Extractor.apk
           if-no-files-found: error
