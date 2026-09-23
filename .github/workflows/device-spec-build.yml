@@ -29,12 +29,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Make gradlew executable
-        run: chmod +x app-device-spec/gradlew
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
 
       - name: Assemble debug APK
         working-directory: app-device-spec
-        run: ./gradlew --no-daemon --stacktrace assembleDebug
+        run: gradle --no-daemon --stacktrace :app:assembleDebug
 
       - name: Collect APK
         working-directory: app-device-spec
