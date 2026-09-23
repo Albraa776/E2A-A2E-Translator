@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import kotlin.math.pow
 
 /**
  * Cross-validation utility for hardware information from multiple sources
@@ -330,7 +331,7 @@ class CrossValidationManager(
             
             // Check for proxy
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val proxy = connectivityManager.proxy
+                val proxy = connectivityManager.defaultProxy
                 if (proxy != null) {
                     issues.add("Proxy detected: ${proxy.host}:${proxy.port}")
                     isValid = false

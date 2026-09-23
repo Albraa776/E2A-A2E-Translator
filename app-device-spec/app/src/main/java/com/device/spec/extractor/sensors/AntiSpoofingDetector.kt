@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import kotlin.math.pow
 
 /**
  * Anti-spoofing detection system for identifying fake or tampered devices
@@ -420,7 +421,7 @@ class AntiSpoofingDetector(
             
             // Check for proxy
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val proxy = connectivityManager.proxy
+                val proxy = connectivityManager.defaultProxy
                 if (proxy != null) {
                     spoofingIndicators.add("Proxy detected: ${proxy.host}:${proxy.port}")
                 }

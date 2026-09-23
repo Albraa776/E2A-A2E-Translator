@@ -349,8 +349,8 @@ class HardwareInfoManager(
                 minDelay = sensor.minDelay,
                 fifoMaxEventCount = sensor.fifoMaxEventCount,
                 fifoReservedEventCount = sensor.fifoReservedEventCount,
-                batchDelay = sensor.batchDelayUs,
-                batchTimeout = sensor.batchTimeoutUs,
+                batchDelay = 0,
+                batchTimeout = 0,
                 isWakeUpSensor = sensor.isWakeUpSensor,
                 isDynamicSensor = sensor.isDynamicSensor
             )
