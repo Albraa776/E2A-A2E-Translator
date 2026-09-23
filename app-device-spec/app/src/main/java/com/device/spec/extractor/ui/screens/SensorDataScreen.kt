@@ -75,15 +75,10 @@ fun SensorDataScreen() {
                             text = sensor,
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        Chip(
-                            colors = if (status == "Available") {
-                                ChipDefaults.chipColors(containerColor = androidx.compose.ui.graphics.Color.Green)
-                            } else {
-                                ChipDefaults.chipColors(containerColor = androidx.compose.ui.graphics.Color.Gray)
-                            }
-                        ) {
-                            Text(text = status)
-                        }
+                        AssistChip(
+                            onClick = {},
+                            label = { Text(text = status) }
+                        )
                     }
                 }
             }

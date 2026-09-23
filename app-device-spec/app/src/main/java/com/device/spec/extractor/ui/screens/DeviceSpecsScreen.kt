@@ -20,7 +20,7 @@ fun DeviceSpecsScreen(
     onNavigateToNetwork: () -> Unit
 ) {
     var isExtracting by remember { mutableStateOf(false) }
-    var extractionProgress by remember { mutableFloatStateOf(0f) }
+    var extractionProgress by remember { mutableStateOf(0f) }
     var extractionStatus by remember { mutableStateOf("Ready to extract device specifications") }
     
     Column(
@@ -59,7 +59,6 @@ fun DeviceSpecsScreen(
                 
                 if (isExtracting) {
                     LinearProgressIndicator(
-                        progress = { extractionProgress },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp)

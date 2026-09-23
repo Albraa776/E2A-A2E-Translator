@@ -5,8 +5,4 @@
             <solid android:color="@color/purple_500"/>
         </shape>
     </item>
-    <item>
-        <bitmap android:gravity="center"
-            android:src="@mipmap/ic_launcher"/>
-    </item>
 </layer-list>
